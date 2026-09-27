@@ -1,0 +1,4 @@
+{% load static %}<!doctype html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{% block title %}Mini CRM{% endblock %}</title><link rel="stylesheet" href="{% static 'app.css' %}"></head>
+<body><header><div class="nav"><a class="brand" href="{% url 'lead-list' %}"><span class="logo">m</span> mini<span class="muted">crm</span></a>{% if user.is_authenticated %}<nav><a href="{% url 'lead-list' %}">Leadlar</a><a href="/api/">API</a></nav><div class="account"><span>{{ user.username }}</span><form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="text-button">Chiqish ↗</button></form></div>{% endif %}</div></header>
+<main>{% for message in messages %}<div class="notice" role="status">{{ message }}</div>{% endfor %}{% block content %}{% endblock %}</main><footer>MINI CRM <span>Har bir aloqa — yangi imkoniyat.</span></footer></body></html>

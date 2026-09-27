@@ -6,6 +6,7 @@ from leads.api import LeadViewSet, TokenLoginView
 router = DefaultRouter()
 router.register("leads", LeadViewSet, basename="api-lead")
 urlpatterns = [
+    path("", include("leads.urls")),
     path("admin/", admin.site.urls),
     path("accounts/", include("django.contrib.auth.urls")),
     path("api/auth/token/", TokenLoginView.as_view(), name="api-token"),
