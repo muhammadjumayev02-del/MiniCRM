@@ -1,1 +1,34 @@
-{% extends 'base.html' %}{% block content %}<a class="back" href="{% url 'lead-list' %}">← Leadlar ro‘yxati</a><div class="heading"><div><p class="eyebrow">LEAD #{{ lead.pk }}</p><h1>{{ lead.name }}</h1><span class="badge {{ lead.status|lower }}">{{ lead.status }}</span></div><a class="button secondary" href="{% url 'lead-update' lead.pk %}">Tahrirlash ↗</a></div><div class="detail-grid"><section class="card"><h2>Kontakt ma’lumotlari</h2><dl><dt>Telefon</dt><dd>{{ lead.phone|default:'Kiritilmagan' }}</dd><dt>Email</dt><dd>{{ lead.email|default:'Kiritilmagan' }}</dd><dt>Manba</dt><dd>{{ lead.source|default:'Kiritilmagan' }}</dd><dt>Izoh</dt><dd class="note">{{ lead.note|default:'Izoh yo‘q'|linebreaksbr }}</dd></dl></section><aside><section class="card"><h2>Jarayon holati</h2><form method="post" action="{% url 'lead-status' lead.pk %}">{% csrf_token %}{{ status_form.as_p }}<button class="button full">Statusni yangilash</button></form><hr><small>Qo‘shilgan: {{ lead.created_at|date:'d.m.Y H:i' }}<br>Yangilangan: {{ lead.updated_at|date:'d.m.Y H:i' }}</small></section><a class="danger delete-link" href="{% url 'lead-delete' lead.pk %}">Leadni o‘chirish</a></aside></div>{% endblock %}
+{% extends 'base.html' %}{% block content %}<a class="back" href="{% url 'lead-list' %}">← Leadlar ro‘yxati</a>
+<div class="heading">
+<div>
+<p class="eyebrow">LEAD #{{ lead.pk }}</p>
+<h1>{{ lead.name }}</h1>
+<span class="badge {{ lead.status|lower }}">{{ lead.status }}</span>
+</div>
+<a class="button secondary" href="{% url 'lead-update' lead.pk %}">Tahrirlash ↗</a>
+</div>
+<div class="detail-grid">
+<section class="card">
+<h2>Kontakt ma’lumotlari</h2>
+<dl>
+<dt>Telefon</dt>
+<dd>{{ lead.phone|default:'Kiritilmagan' }}</dd>
+<dt>Email</dt>
+<dd>{{ lead.email|default:'Kiritilmagan' }}</dd>
+<dt>Manba</dt>
+<dd>{{ lead.source|default:'Kiritilmagan' }}</dd>
+<dt>Izoh</dt>
+<dd class="note">{{ lead.note|default:'Izoh yo‘q'|linebreaksbr }}</dd>
+</dl>
+</section>
+<aside>
+<section class="card">
+<h2>Jarayon holati</h2>
+<form method="post" action="{% url 'lead-status' lead.pk %}">{% csrf_token %}{{ status_form.as_p }}<button class="button full">Statusni yangilash</button>
+</form>
+<hr>
+<small>Qo‘shilgan: {{ lead.created_at|date:'d.m.Y H:i' }}<br>Yangilangan: {{ lead.updated_at|date:'d.m.Y H:i' }}</small>
+</section>
+<a class="danger delete-link" href="{% url 'lead-delete' lead.pk %}">Leadni o‘chirish</a>
+</aside>
+</div>{% endblock %}

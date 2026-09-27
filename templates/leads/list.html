@@ -1,5 +1,88 @@
-{% extends 'base.html' %}{% block content %}<div class="heading"><div><p class="eyebrow">ISH MAYDONI / LEADLAR</p><h1>Mijozlar bilan aloqa</h1><p class="muted">Barcha imkoniyatlaringizni bir joyda boshqaring.</p></div><a class="button" href="{% url 'lead-create' %}">＋ Yangi lead</a></div>
-<div class="stats"><div class="card"><span>Jami leadlar</span><strong>{{ total }}</strong><small>Barcha kontaktlar</small></div><div class="card"><span>Yangi imkoniyatlar</span><strong>{{ new_count }}</strong><small>New statusidagi leadlar</small></div><div class="card"><span>Muvaffaqiyatli</span><strong>{{ won_count }}</strong><small>Won statusidagi leadlar</small></div></div>
-<section class="card table-card"><div class="section-title"><h2>Leadlar ro‘yxati <span class="count">{{ page_obj.paginator.count }}</span></h2><span class="muted">Eng yangilari avval</span></div><form class="filters" method="get"><label class="search"><span class="sr-only">Qidiruv</span><input name="search" value="{{ search }}" placeholder="Ism, telefon, email yoki manba…" type="search"></label><label><span class="sr-only">Status</span><select name="status"><option value="">Barcha statuslar</option>{% for value,label in statuses %}<option value="{{ value }}" {% if status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></label><button class="button secondary">Qidirish</button>{% if search or status %}<a class="clear" href="{% url 'lead-list' %}">Tozalash</a>{% endif %}</form>{% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
-<div class="table-scroll"><table><thead><tr><th>Mijoz</th><th>Aloqa</th><th>Manba</th><th>Status</th><th>Qo‘shilgan</th><th></th></tr></thead><tbody>{% for lead in page_obj %}<tr><td><a class="person" href="{% url 'lead-detail' lead.pk %}"><span class="avatar">{{ lead.name|first|upper }}</span>{{ lead.name }}</a></td><td><div>{{ lead.phone|default:'—' }}</div><small>{{ lead.email|default:'—' }}</small></td><td>{{ lead.source|default:'—' }}</td><td><span class="badge {{ lead.status|lower }}">{{ lead.status }}</span></td><td>{{ lead.created_at|date:'d.m.Y' }}</td><td><a aria-label="{{ lead.name }} tafsiloti" href="{% url 'lead-detail' lead.pk %}">↗</a></td></tr>{% empty %}<tr><td colspan="6"><div class="empty"><h2>Leadlar topilmadi</h2><p>Qidiruvni o‘zgartiring yoki birinchi leadni qo‘shing.</p><a href="{% url 'lead-create' %}">＋ Yangi lead qo‘shish</a></div></td></tr>{% endfor %}</tbody></table></div>
-<div class="pagination"><span>{{ page_obj.number }} / {{ page_obj.paginator.num_pages }} sahifa</span><div>{% if page_obj.has_previous %}<a href="?search={{ search|urlencode }}&status={{ status|urlencode }}&page={{ page_obj.previous_page_number }}">← Oldingi</a>{% endif %}{% if page_obj.has_next %}<a href="?search={{ search|urlencode }}&status={{ status|urlencode }}&page={{ page_obj.next_page_number }}">Keyingi →</a>{% endif %}</div></div></section>{% endblock %}
+{% extends 'base.html' %}{% block content %}<div class="heading">
+<div>
+<p class="eyebrow">ISH MAYDONI / LEADLAR</p>
+<h1>Mijozlar bilan aloqa</h1>
+<p class="muted">Barcha imkoniyatlaringizni bir joyda boshqaring.</p>
+</div>
+<a class="button" href="{% url 'lead-create' %}">＋ Yangi lead</a>
+</div>
+<div class="stats">
+<div class="card">
+<span>Jami leadlar</span>
+<strong>{{ total }}</strong>
+<small>Barcha kontaktlar</small>
+</div>
+<div class="card">
+<span>Yangi imkoniyatlar</span>
+<strong>{{ new_count }}</strong>
+<small>New statusidagi leadlar</small>
+</div>
+<div class="card">
+<span>Muvaffaqiyatli</span>
+<strong>{{ won_count }}</strong>
+<small>Won statusidagi leadlar</small>
+</div>
+</div>
+<section class="card table-card">
+<div class="section-title">
+<h2>Leadlar ro‘yxati <span class="count">{{ page_obj.paginator.count }}</span>
+</h2>
+<span class="muted">Eng yangilari avval</span>
+</div>
+<form class="filters" method="get">
+<label class="search">
+<span class="sr-only">Qidiruv</span>
+<input name="search" value="{{ search }}" placeholder="Ism, telefon, email yoki manba…" type="search">
+</label>
+<label>
+<span class="sr-only">Status</span>
+<select name="status">
+<option value="">Barcha statuslar</option>{% for value,label in statuses %}<option value="{{ value }}" {% if status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+</label>
+<button class="button secondary">Qidirish</button>{% if search or status %}<a class="clear" href="{% url 'lead-list' %}">Tozalash</a>{% endif %}</form>{% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
+<div class="table-scroll">
+<table>
+<thead>
+<tr>
+<th>Mijoz</th>
+<th>Aloqa</th>
+<th>Manba</th>
+<th>Status</th>
+<th>Qo‘shilgan</th>
+<th>
+</th>
+</tr>
+</thead>
+<tbody>{% for lead in page_obj %}<tr>
+<td>
+<a class="person" href="{% url 'lead-detail' lead.pk %}">
+<span class="avatar">{{ lead.name|first|upper }}</span>{{ lead.name }}</a>
+</td>
+<td>
+<div>{{ lead.phone|default:'—' }}</div>
+<small>{{ lead.email|default:'—' }}</small>
+</td>
+<td>{{ lead.source|default:'—' }}</td>
+<td>
+<span class="badge {{ lead.status|lower }}">{{ lead.status }}</span>
+</td>
+<td>{{ lead.created_at|date:'d.m.Y' }}</td>
+<td>
+<a aria-label="{{ lead.name }} tafsiloti" href="{% url 'lead-detail' lead.pk %}">↗</a>
+</td>
+</tr>{% empty %}<tr>
+<td colspan="6">
+<div class="empty">
+<h2>Leadlar topilmadi</h2>
+<p>Qidiruvni o‘zgartiring yoki birinchi leadni qo‘shing.</p>
+<a href="{% url 'lead-create' %}">＋ Yangi lead qo‘shish</a>
+</div>
+</td>
+</tr>{% endfor %}</tbody>
+</table>
+</div>
+<div class="pagination">
+<span>{{ page_obj.number }} / {{ page_obj.paginator.num_pages }} sahifa</span>
+<div>{% if page_obj.has_previous %}<a href="?search={{ search|urlencode }}&status={{ status|urlencode }}&page={{ page_obj.previous_page_number }}">← Oldingi</a>{% endif %}{% if page_obj.has_next %}<a href="?search={{ search|urlencode }}&status={{ status|urlencode }}&page={{ page_obj.next_page_number }}">Keyingi →</a>{% endif %}</div>
+</div>
+</section>{% endblock %}
