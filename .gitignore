@@ -1,0 +1,11 @@
+.venv/
+.env
+.env.*
+!.env.example
+*.sqlite3
+*.sqlite3-*
+__pycache__/
+*.py[cod]
+.idea/
+staticfiles/
+.coverage
